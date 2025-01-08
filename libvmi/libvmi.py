@@ -982,12 +982,9 @@ class Libvmi(object):
         cffi_event = event.to_cffi()
         status = lib.vmi_register_event(self.vmi, cffi_event)
         check(status)
-    
-    def set_mem_event(self, gfn,access,slatid):
-        cffgfn = ffi.new("addr_t *",gfn)
-        cffaccess = ffi.new("uint8_t *",access)
-        cffslatid = ffi.new("uint16_t *",slatid)
-        status = lib.vmi_set_mem_event(self.vmi, gfn,access,slatid)
+
+    def set_mem_event(self, gfn, access, slatid):
+        status = lib.vmi_set_mem_event(self.vmi, gfn, access, slatid)
         check(status)
 
     def clear_event(self, event):
@@ -1024,10 +1021,11 @@ class Libvmi(object):
         return va_pages
 
     # slat
-    def slat_control(self,state):
+    def slat_control(self, state):
         state = ffi.new("bool *")
         status = lib.vmi_slat_control(self.vmi, state)
         check(status)
+        
     def slat_get_domain_state(self):
         state = ffi.new("bool *")
         status = lib.vmi_slat_get_domain_state(self.vmi, state)
